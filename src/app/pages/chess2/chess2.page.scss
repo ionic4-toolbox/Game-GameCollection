@@ -1,0 +1,338 @@
+/* Chess
+   ----------------------------- */
+
+   @mixin prefix($name, $argument) {
+    -webkit-#{$name}: #{$argument};
+    -ms-#{$name}: #{$argument};
+    -moz-#{$name}: #{$argument};
+    -o-#{$name}: #{$argument};
+    #{$name}: #{$argument};
+}
+
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
+
+html,
+body,
+.viewport {
+    background: #f1eff0;
+    @include prefix(box-sizing, border-box);
+    width: 100%;
+    height: 100%;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 1em;
+}
+
+@mixin mshadow($level) {
+    @if $level == 1 {
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    }
+    @else if $level == 2 {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+    @else if $level == 3 {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  }
+}
+
+/* Layout 
+   ----------------------------- */
+$sq: 12.5%;
+$full: 100%;
+.fluid-container {
+  max-width: 960px;
+}
+full-width {
+  width: $full;
+}
+.max {
+  max-width:  $sq * 16;
+}
+.center {
+  margin: 0 auto;
+}
+.center-text {
+  text-align: center;
+}
+.play-area {
+  padding: 1.5rem;
+}
+.banner {
+  background: 24EAC7;
+  height: 10vh;
+  min-height: 100px;
+  padding: 1rem;
+}
+.banner-img {
+  height: 6rem;
+  widht: 6rem;
+  @include prefix(transition, 0.3s ease);
+  @include mshadow(1);
+   &:hover {
+     @include mshadow(2);
+  }
+}
+.banner-txt {
+  font-size: 2rem;
+}
+.about {
+  margin: 1rem;
+  padding: .5rem;
+  @include mshadow(1);
+  @include prefix(transition, 0.3s ease);
+  &:hover {
+     @include mshadow(2);
+  }
+}
+
+h1 {
+  display: inline;
+  font-size: 4rem;
+}
+p {
+  font-size: .75em;
+}
+/* Chess Board
+   ----------------------------- */
+.board {
+  @include mshadow(3);
+  min-width: 400px;
+}
+.chess-sq {
+    width: $sq;
+    height: $sq;
+    max-width: 120px;
+    padding: $sq / 3;
+    text-align: center;
+    font-size: .5rem;
+    @include prefix(transition, 0.2s ease-in-out);
+  &:hover {
+    @include mshadow(3);
+  }
+}
+@-webkit-keyframes build {
+    from {
+        opacity: 0;
+        @include prefix(transform, scale(0,0));
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes build {
+    from {
+        opacity: 0;
+        @include prefix(transform, scale(0,0));
+    }
+    to {
+        opacity: 1;
+    }
+}
+// body > main > div:nth-child(2) > div > div.board.col-xs-8 > div:nth-child(1) > div.col-xs-1.chess-sq.A8.BR
+    @for $i from 1 through 8 {
+  div:nth-child(#{$i}) > div.col-xs-1.chess-sq {
+            @include prefix(animation-duration, 1s);
+            @include prefix(animation-fill-mode, both);
+            @include prefix(animation-delay, (.1s * $i));
+            @include prefix(animation-duration, (.1s * $i));
+            @include prefix(animation-iteration-count, 1);
+            @include prefix(animation-timing-function, ease-in-out);
+            @include prefix(animation-fill-mode, both);
+            @include prefix(animation-name, build);
+        }
+    }
+.initial {
+  background-color: rgba(11,137,208, .6) !important;
+}
+.destination {
+ background-color: rgba(24,157,134, .6) !important;
+}
+
+$accent1: rgba(11,137,208, .6);
+$accent2: rgba(24,157,134, .6);
+.accent1 {
+  background-color: $accent1;
+}
+.accent2 {
+   background-color: $accent2;
+}
+
+//Duplicate of above but I need these !important specifier to change board colors. 
+//And separate from my accents above otherwise we might add chess pieces to accents.
+.initial {
+  background-color: $accent1 !important;
+}
+.destination {
+ background-color: $accent2 !important;
+}
+
+//TODO refactor this:
+//wrapped in an each loop with a $columns 
+//list as reference
+  @for $i from 1 through 8 {
+      .A#{$i} {
+          background-color: #fff;
+      }
+    @if $i % 2 == 0 {
+      .A#{$i} {
+        background-color: #ddd;
+      }
+    }
+     .B#{$i} {
+       background-color: #ddd;    
+      }
+    @if $i % 2 == 0 {
+      .B#{$i} {
+        background-color: #fff;
+      }
+    }
+     .C#{$i} {
+          background-color: #fff;
+      }
+    @if $i % 2 == 0 {
+      .C#{$i} {
+        background-color: #ddd;
+      }
+    }
+     .D#{$i} {
+        background-color: #ddd;
+      }
+    @if $i % 2 == 0 {
+      .D#{$i} {
+        background-color: #fff;
+      }
+    }
+     .E#{$i} {
+        background-color: #fff;
+      }
+    @if $i % 2 == 0 {
+      .E#{$i} {
+        background-color: #ddd;
+      }
+    }
+     .F#{$i} {
+        background-color: #ddd;
+      }
+    @if $i % 2 == 0 {
+      .F#{$i} {
+        background-color: #fff;
+      }
+    }
+     .G#{$i} {
+          background-color: #fff;
+      }
+    @if $i % 2 == 0 {
+      .G#{$i} {
+        background-color: #ddd;
+      }
+    }
+    .H#{$i} {
+          background-color: #ddd;
+      }
+    @if $i % 2 == 0 {
+      .H#{$i} {
+        background-color: #fff;
+      }
+    }
+  }
+/* Inputs
+   ----------------------------- */
+.movement {
+  @include mshadow(3);
+  position: relative;
+}
+.text-input {
+  border: transparent;
+  border-radius: .2rem;
+  margin: .5rem auto;
+  height: 2rem;
+  width: 100%;
+}
+
+/* Buttons
+   ----------------------------- */
+.cst-btn {
+    width: 100%;
+    padding: 1em;
+    text-align: center;
+    text-decoration: none;
+    border: transparent;
+    border-radius: .2rem;
+    color: white;
+    background: #1E2E37;
+    @include mshadow(3);
+    @include prefix(transition, 0.3s ease);
+    &:hover {
+        @include mshadow(2);
+    }
+}
+
+/* Chess pieces B / W
+   ----------------------------- */
+.BP {
+    background-image: url(https://maxcdn.icons8.com/iOS7/PNG/25/Gaming/pawn_filled-25.png);
+    background-repeat: no-repeat;
+}
+.WP {
+    background-image: url(https://maxcdn.icons8.com/iOS7/PNG/25/Gaming/pawn-25.png);
+    background-repeat: no-repeat;
+}
+
+/*
+ * Rooks
+ */
+
+.BR {
+    background-image: url(https://maxcdn.icons8.com/iOS7/PNG/25/Gaming/rook_filled-25.png);
+    background-repeat: no-repeat;
+}
+.WR {
+    background-image: url(https://maxcdn.icons8.com/iOS7/PNG/25/Gaming/rook-25.png);
+    background-repeat: no-repeat;
+}
+
+/*
+ * Knights
+ */
+
+.BH {
+    background-image: url(https://maxcdn.icons8.com/iOS7/PNG/25/Gaming/knight_filled-25.png);
+  background-repeat: no-repeat;
+}
+.WH {
+    background-image: url(https://maxcdn.icons8.com/iOS7/PNG/25/Gaming/knight-25.png);
+  background-repeat: no-repeat;
+}
+
+/*
+ * Bishops
+ */
+
+.BB {
+    background-image: url(https://maxcdn.icons8.com/iOS7/PNG/25/Gaming/bishop_filled-25.png);
+  background-repeat: no-repeat;
+}
+.WB {
+    background-image: url(https://maxcdn.icons8.com/iOS7/PNG/25/Gaming/bishop-25.png);
+  background-repeat: no-repeat;
+}
+
+/*
+ * Queen, King
+ */
+
+.WQ {
+    background-image: url(https://maxcdn.icons8.com/iOS7/PNG/25/Gaming/queen-25.png);
+    background-repeat: no-repeat;
+}
+.BQ {
+    background-image: url(https://maxcdn.icons8.com/iOS7/PNG/25/Gaming/queen_filled-25.png);
+    background-repeat: no-repeat;
+}
+.WK {
+    background-image: url(https://maxcdn.icons8.com/iOS7/PNG/25/Gaming/king-25.png);
+    background-repeat: no-repeat;
+}
+.BK {
+    background-image: url(https://maxcdn.icons8.com/iOS7/PNG/25/Gaming/king_filled-25.png);
+    background-repeat: no-repeat;
+}
